@@ -1,0 +1,96 @@
+/* Global Styles - Bootstrap Override */
+
+/* Ensure proper page display */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff !important;
+  color: #333333 !important;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #ffffff !important;
+}
+
+app-root {
+  display: block;
+  width: 100%;
+}
+
+/* Navbar styling */
+nav.navbar {
+  background-color: #f8f9fa !important;
+  border-bottom: 1px solid #dee2e6;
+}
+
+nav.navbar .navbar-brand {
+  font-weight: 600;
+  color: #007bff !important;
+}
+
+nav.navbar .nav-link {
+  color: #495057 !important;
+  transition: color 0.3s ease;
+}
+
+nav.navbar .nav-link:hover {
+  color: #007bff !important;
+}
+
+/* Main content */
+main.container {
+  background-color: #ffffff;
+  padding-top: 2rem;
+}
+
+/* Form controls */
+.form-control,
+.form-select {
+  border-color: #dee2e6;
+  background-color: #ffffff;
+  color: #333333;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #80bdff;
+  background-color: #ffffff;
+  color: #333333;
+}
+
+/* Buttons */
+.btn {
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Cards */
+.card {
+  background-color: #ffffff;
+  border-color: #dee2e6;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-title {
+  color: #333333;
+}
+
+/* Text utilities */
+.text-muted {
+  color: #6c757d !important;
+}
