@@ -79,6 +79,16 @@
       "phone": "55",
       "address": "55mm",
       "role": "user"
+    },
+    {
+      "username": "aymen",
+      "password": "aymen",
+      "email": "aaaa@gmail.com",
+      "fullName": "aymen",
+      "phone": "555",
+      "address": "aaaaaaaa",
+      "role": "user",
+      "id": "Ncn2Cmh"
     }
   ],
   "categories": [

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 
@@ -16,7 +16,12 @@ import { AuthService } from '../services/auth.service';
       </div>
     </div>
 
-    <div *ngFor="let p of products" class="mb-3">
+    <div *ngIf="filterCategoryId" class="alert alert-info d-flex justify-content-between align-items-center mb-3">
+      <span>Showing products in category: <strong>{{ getCategoryName(filterCategoryId) }}</strong></span>
+      <button class="btn btn-sm btn-outline-secondary" (click)="clearFilter()">Show All</button>
+    </div>
+
+    <div *ngFor="let p of filteredProducts" class="mb-3">
       <div class="card">
         <div class="card-body d-flex gap-3 align-items-center">
           <img *ngIf="p.image" [src]="p.image" alt="img" class="rounded" style="width:80px;height:80px;object-fit:cover" />
@@ -55,13 +60,18 @@ import { AuthService } from '../services/auth.service';
 export class ProductListComponent implements OnInit {
   private api = inject(ApiService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private auth = inject(AuthService);
 
   products: any[] = [];
   categoriesMap: Record<number, string> = {};
   interactions: any[] = [];
+  filterCategoryId: number | null = null;
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.filterCategoryId = params['categoryId'] ? +params['categoryId'] : null;
+    });
     this.load();
     this.api.getCategories().subscribe(cats => {
       this.categoriesMap = {};
@@ -95,6 +105,17 @@ export class ProductListComponent implements OnInit {
 
   get isAdmin() {
     return this.auth.isAdmin();
+  }
+
+  get filteredProducts() {
+    if (!this.filterCategoryId) {
+      return this.products;
+    }
+    return this.products.filter(p => p.categoryId === this.filterCategoryId);
+  }
+
+  clearFilter() {
+    this.router.navigate(['/products']);
   }
 
   getLikes(productId: number) {

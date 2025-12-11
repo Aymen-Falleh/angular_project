@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 
@@ -17,15 +17,15 @@ import { AuthService } from '../services/auth.service';
     </div>
 
     <div *ngFor="let c of categories" class="mb-3">
-      <div class="card">
+      <div class="card" style="cursor: pointer;" (click)="viewProducts(c.id, $event)">
         <div class="card-body d-flex justify-content-between align-items-center">
           <div>
             <div class="fw-bold">{{c.name}}</div>
             <div class="text-muted">{{c.description}}</div>
           </div>
           <div class="d-flex gap-2">
-            <a *ngIf="isAdmin" class="btn btn-outline-secondary btn-sm" [routerLink]="['/categories/edit', c.id]">Edit</a>
-            <button *ngIf="isAdmin" class="btn btn-outline-danger btn-sm" (click)="remove(c.id)">Delete</button>
+            <a *ngIf="isAdmin" class="btn btn-outline-secondary btn-sm" [routerLink]="['/categories/edit', c.id]" (click)="$event.stopPropagation()">Edit</a>
+            <button *ngIf="isAdmin" class="btn btn-outline-danger btn-sm" (click)="remove(c.id); $event.stopPropagation()">Delete</button>
           </div>
         </div>
       </div>
@@ -35,6 +35,7 @@ import { AuthService } from '../services/auth.service';
 export class CategoryListComponent implements OnInit {
   private api = inject(ApiService);
   private auth = inject(AuthService);
+  private router = inject(Router);
 
   categories: any[] = [];
 
@@ -50,6 +51,10 @@ export class CategoryListComponent implements OnInit {
     if (!id) return;
     if (!confirm('Delete this category?')) return;
     this.api.deleteCategory(id).subscribe(() => this.load());
+  }
+
+  viewProducts(categoryId: number, event: Event) {
+    this.router.navigate(['/products'], { queryParams: { categoryId } });
   }
 
   get isAuth() {
